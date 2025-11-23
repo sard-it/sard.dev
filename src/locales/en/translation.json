@@ -1,0 +1,96 @@
+{
+  "hero": {
+    "title": "Building Intelligence with a Human Heart",
+    "description1": "At Sard IT, we believe that technology should serve humanity, not dominate it. We integrate Artificial Intelligence into every system we build — not to take over human work, but to make it more meaningful, efficient, and impactful.",
+    "description2": "Our goal is to design intelligent solutions that enhance creativity, optimize performance, and drive human progress forward.",
+    "exploreButton": "Explore Our Solutions",
+    "contactButton": "Contact Us",
+    "tagline": "We Make a Heart For Machine"
+  },
+  "about": {
+    "title": "About Us",
+    "paragraph1": "Sard IT is more than a technology company. We are architects of the future, building systems that think, adapt, and evolve — all while keeping humanity at the core.",
+    "paragraph2": "Founded on the belief that artificial intelligence should amplify human potential, we combine cutting-edge technology with empathy, innovation with ethics, and automation with purpose.",
+    "paragraph3": "Every solution we deliver is infused with intelligence — not as a replacement for human creativity, but as a catalyst for it.",
+    "stats": {
+      "solutions": "AI Solutions Delivered",
+      "clients": "Global Clients",
+      "mindset": "Innovation Mindset"
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "aiPowered": {
+      "title": "AI-Powered Solutions",
+      "description": "Custom artificial intelligence systems that learn, adapt, and optimize your business processes."
+    },
+    "automation": {
+      "title": "Intelligent Automation",
+      "description": "Streamline operations with smart automation that thinks ahead and reduces manual workload."
+    },
+    "dataIntelligence": {
+      "title": "Data Intelligence",
+      "description": "Transform raw data into actionable insights with advanced analytics and machine learning."
+    },
+    "performance": {
+      "title": "Performance Optimization",
+      "description": "AI-driven optimization that continuously improves system efficiency and user experience."
+    },
+    "cloud": {
+      "title": "Cloud Integration",
+      "description": "Seamless cloud solutions powered by AI for scalability, security, and global reach."
+    },
+    "security": {
+      "title": "Secure Systems",
+      "description": "Enterprise-grade security enhanced with AI threat detection and prevention."
+    }
+  },
+  "vision": {
+    "title": "Our Vision",
+    "subtitle": "A Future Where Technology Amplifies Humanity",
+    "paragraph1": "We envision a world where artificial intelligence doesn't compete with human intelligence — it complements it. Where machines handle the mundane, so people can focus on the magnificent.",
+    "paragraph2": "Our vision is to build intelligent ecosystems that learn from humanity, grow with it, and ultimately, serve it with purpose and precision.",
+    "paragraph3": "Every line of code we write, every algorithm we train, every system we deploy — it all points to one goal: making technology more human, not the other way around.",
+    "quote": "Intelligence without empathy is hollow. Technology without purpose is meaningless. We build both."
+  },
+  "values": {
+    "title": "Our Values",
+    "subtitle": "Principles that guide everything we create",
+    "humanCentered": {
+      "title": "Human-Centered",
+      "description": "Every solution we build prioritizes human needs, emotions, and experiences."
+    },
+    "collaborative": {
+      "title": "Collaborative",
+      "description": "We work alongside you, combining our technical expertise with your vision."
+    },
+    "purposeDriven": {
+      "title": "Purpose-Driven",
+      "description": "We create technology with intention, ensuring every innovation serves a meaningful purpose."
+    },
+    "innovation": {
+      "title": "Innovation First",
+      "description": "We push boundaries and explore new possibilities in AI and intelligent systems."
+    },
+    "ethical": {
+      "title": "Ethical AI",
+      "description": "Responsible development and deployment of artificial intelligence systems."
+    }
+  },
+  "cta": {
+    "title": "Join the Future",
+    "description": "The future doesn't wait. It's being built right now — and we're inviting you to be part of it. Let's create intelligent solutions that make the world better, smarter, and more human.",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More",
+    "question": "Ready to transform your business with intelligent solutions?",
+    "callToAction": "Let's build something extraordinary together."
+  },
+  "footer": {
+    "tagline": "Building Intelligence with a Human Heart",
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "contact": "Contact"
+  }
+}
+

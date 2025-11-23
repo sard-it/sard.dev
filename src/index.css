@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&family=Inter:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html[dir="rtl"] {
+  font-family: "Cairo", sans-serif;
+}
+
+html[dir="ltr"] {
+  font-family: "Inter", sans-serif;
+}
+
+
+/* Base direction handling */
+/* Force full layout direction */
+html[dir="rtl"] {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+html[dir="ltr"] {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* Prevent direction mixing issues */
+html[dir="rtl"] * {
+  direction: rtl !important;
+  text-align: right !important;
+  unicode-bidi: isolate;
+}
+
+html[dir="ltr"] * {
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: isolate;
+}
