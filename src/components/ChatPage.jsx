@@ -226,8 +226,8 @@ ${partnersInfo || "Sard AI maintains official partnerships with key industry lea
         {/* Initial Welcome Banner if no chat started */}
         {!started && (
           <div className="text-center py-12 space-y-4">
-            <div className="w-20 h-20 bg-brand-orange/10 border border-brand-orange/30 rounded-full flex items-center justify-center mx-auto mb-4 p-2 shadow-lg shadow-brand-orange/20">
-              <img src={aiLogo} alt="Sard AI Emblem" className="w-full h-full object-contain mix-blend-screen animate-pulse" />
+            <div className="w-24 h-24 bg-brand-orange/10 border border-brand-orange/30 rounded-2xl flex items-center justify-center mx-auto mb-4 p-3 shadow-xl">
+              <img src={aiLogo} alt="Sard AI Model Logo" className="w-full h-full object-contain mix-blend-screen" />
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-white">{t('chat.welcomeTitle')}</h1>
             <p className="text-gray-400 text-base max-w-lg mx-auto">{t('chat.welcomeDesc')}</p>
@@ -245,10 +245,10 @@ ${partnersInfo || "Sard AI maintains official partnerships with key industry lea
               className={`w-full flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
             >
               {msg.sender === "bot" ? (
-                /* Pro AI Full-width Response Layout with Leaf Wreath Emblem */
+                /* Pro AI Full-width Response Layout with Static AI Model Logo */
                 <div className="w-full flex gap-4 p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm text-gray-100 leading-relaxed text-base sm:text-lg">
-                  <div className="w-10 h-10 rounded-xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center shrink-0 p-1">
-                    <img src={aiLogo} alt="Sard AI Emblem" className="w-full h-full object-contain mix-blend-screen" />
+                  <div className="w-11 h-11 rounded-xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center shrink-0 p-1">
+                    <img src={aiLogo} alt="Sard AI Model Logo" className="w-full h-full object-contain mix-blend-screen" />
                   </div>
                   <div className="flex-1 space-y-2 whitespace-pre-line">
                     <p className="text-xs font-bold text-brand-orange uppercase tracking-wider">Sard AI Assistant</p>
@@ -269,15 +269,15 @@ ${partnersInfo || "Sard AI maintains official partnerships with key industry lea
             </motion.div>
           ))}
 
-          {/* 3-Pulsing Dots Loader Animation */}
+          {/* Static Loader Indicator */}
           {loading && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="w-full flex gap-4 p-6 rounded-2xl bg-white/5 border border-white/10 items-center"
             >
-              <div className="w-10 h-10 rounded-xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center shrink-0 p-1">
-                <img src={aiLogo} alt="Sard AI Emblem" className="w-full h-full object-contain mix-blend-screen animate-spin" />
+              <div className="w-11 h-11 rounded-xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center shrink-0 p-1">
+                <img src={aiLogo} alt="Sard AI Model Logo" className="w-full h-full object-contain mix-blend-screen" />
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 bg-brand-orange rounded-full animate-bounce [animation-delay:-0.3s]" />
