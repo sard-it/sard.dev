@@ -64,21 +64,21 @@ export const HeroSection = () => {
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-8 py-4 bg-[#ef9c00] text-black font-bold rounded-xl shadow-lg shadow-brand-orange/30 flex items-center gap-3 text-base h-full"
+                className="px-8 py-4 bg-[#ef9c00] text-black font-bold rounded-xl shadow-lg shadow-brand-orange/30 flex items-center gap-3 text-base"
               >
                 <Calendar className="w-5 h-5" />
                 <span>{t('hero.bookMeeting')}</span>
               </motion.button>
             </Link>
 
-            {/* Ask AI Button with Prominent Static AI Model Logo */}
+            {/* Ask AI Button with Clean Large AI Logo Directly on Button */}
             <Link to="/ai">
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 className="px-8 py-3.5 border-2 border-[#ef9c00] text-[#ef9c00] bg-brand-orange/10 flex items-center gap-3.5 font-bold rounded-xl hover:bg-brand-orange/20 transition-all text-base sm:text-lg"
               >
-                <img src={aiLogo} alt="Sard AI Model Logo" className="w-10 h-10 sm:w-11 sm:h-11 object-contain mix-blend-screen shrink-0" />
+                <img src={aiLogo} alt="AI Logo" className="w-10 h-10 sm:w-12 sm:h-12 object-contain mix-blend-screen shrink-0" />
                 <span>{isRTL ? "مساعد الذكاء الاصطناعي" : "Ask Sard AI"}</span>
                 {isRTL ? <ArrowLeft className="w-5 h-5" /> : <ArrowRight className="w-5 h-5" />}
               </motion.button>

@@ -1,13 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Calendar, CheckCircle2, ArrowRight, ArrowLeft, User } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { saveAppointment } from "../utils/calendarStorage";
 import { supabase } from "../integrations/supabase/client";
 import sardLogo from "../assets/logo.png";
 import aiLogo from "../assets/ai-logo.png";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import ThinkingIndicator from "./ThinkingIndicator";
+import StreamingBotMessage from "./StreamingBotMessage";
 
 const GEMINI_API_KEY = "AQ.Ab8RN6JFxh9sEr6mx0qxFaqL8rOyUFwogCpq13ATzb5tJrdS5A";
 
@@ -49,7 +51,6 @@ async function queryGemini(contents, systemInstructionText) {
 export default function ChatPage() {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
-  const navigate = useNavigate();
 
   const [textPrompt, setTextPrompt] = useState("");
   const [loading, setLoading] = useState(false);
@@ -226,9 +227,7 @@ ${partnersInfo || "Sard AI maintains official partnerships with key industry lea
         {/* Initial Welcome Banner if no chat started */}
         {!started && (
           <div className="text-center py-12 space-y-4">
-            <div className="w-24 h-24 bg-brand-orange/10 border border-brand-orange/30 rounded-2xl flex items-center justify-center mx-auto mb-4 p-3 shadow-xl">
-              <img src={aiLogo} alt="Sard AI Model Logo" className="w-full h-full object-contain mix-blend-screen" />
-            </div>
+            <img src={aiLogo} alt="Sard AI Logo" className="w-24 h-24 object-contain mix-blend-screen mx-auto mb-2" />
             <h1 className="text-3xl sm:text-4xl font-extrabold text-white">{t('chat.welcomeTitle')}</h1>
             <p className="text-gray-400 text-base max-w-lg mx-auto">{t('chat.welcomeDesc')}</p>
           </div>
@@ -245,16 +244,8 @@ ${partnersInfo || "Sard AI maintains official partnerships with key industry lea
               className={`w-full flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
             >
               {msg.sender === "bot" ? (
-                /* Pro AI Full-width Response Layout with Static AI Model Logo */
-                <div className="w-full flex gap-4 p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm text-gray-100 leading-relaxed text-base sm:text-lg">
-                  <div className="w-11 h-11 rounded-xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center shrink-0 p-1">
-                    <img src={aiLogo} alt="Sard AI Model Logo" className="w-full h-full object-contain mix-blend-screen" />
-                  </div>
-                  <div className="flex-1 space-y-2 whitespace-pre-line">
-                    <p className="text-xs font-bold text-brand-orange uppercase tracking-wider">Sard AI Assistant</p>
-                    <div className="text-gray-200">{msg.text}</div>
-                  </div>
-                </div>
+                /* Pro AI Full-width Clean Streaming Response with Formatted Markdown & Clean Emblem */
+                <StreamingBotMessage fullText={msg.text} isRTL={isRTL} />
               ) : (
                 /* Compact User Message Bubble */
                 <div className="flex items-center gap-3 max-w-[85%] sm:max-w-[70%]">
@@ -269,23 +260,8 @@ ${partnersInfo || "Sard AI maintains official partnerships with key industry lea
             </motion.div>
           ))}
 
-          {/* Static Loader Indicator */}
-          {loading && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="w-full flex gap-4 p-6 rounded-2xl bg-white/5 border border-white/10 items-center"
-            >
-              <div className="w-11 h-11 rounded-xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center shrink-0 p-1">
-                <img src={aiLogo} alt="Sard AI Model Logo" className="w-full h-full object-contain mix-blend-screen" />
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 bg-brand-orange rounded-full animate-bounce [animation-delay:-0.3s]" />
-                <span className="w-2.5 h-2.5 bg-brand-orange rounded-full animate-bounce [animation-delay:-0.15s]" />
-                <span className="w-2.5 h-2.5 bg-brand-orange rounded-full animate-bounce" />
-              </div>
-            </motion.div>
-          )}
+          {/* Reasoning & Thought Process Indicator */}
+          {loading && <ThinkingIndicator isRTL={isRTL} />}
 
           <div ref={messagesEndRef} />
         </div>
