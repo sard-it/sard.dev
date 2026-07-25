@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
 import sardITLogo from '../assets/logo.png';
+import aiLogo from '../assets/ai-logo.png';
 import SplitText from './SplitText';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";   
-import { Calendar, Bot, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Calendar, ArrowRight, ArrowLeft } from 'lucide-react';
 
 export const HeroSection = () => {
   const { t, i18n } = useTranslation();
@@ -70,14 +71,14 @@ export const HeroSection = () => {
               </motion.button>
             </Link>
 
-            {/* Ask AI Button */}
+            {/* Ask AI Button with new AI Logo */}
             <Link to="/ai">
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 className="px-8 py-4 border-2 border-[#ef9c00] text-[#ef9c00] bg-brand-orange/10 flex items-center gap-3 font-bold rounded-xl hover:bg-brand-orange/20 transition-all text-base"
               >
-                <Bot className="w-5 h-5" />
+                <img src={aiLogo} alt="AI Logo" className="w-7 h-7 object-contain mix-blend-screen" />
                 <span>{isRTL ? "مساعد الذكاء الاصطناعي" : "Ask Sard AI"}</span>
                 {isRTL ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
               </motion.button>

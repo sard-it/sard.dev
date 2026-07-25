@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Send, Calendar, CheckCircle2, ArrowRight, ArrowLeft, Sparkles, User } from "lucide-react";
+import { Calendar, CheckCircle2, ArrowRight, ArrowLeft, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { saveAppointment } from "../utils/calendarStorage";
+import { supabase } from "../integrations/supabase/client";
 import sardLogo from "../assets/logo.png";
 import aiLogo from "../assets/ai-logo.png";
 import { useTranslation } from "react-i18next";
@@ -10,7 +11,6 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 
 const GEMINI_API_KEY = "AQ.Ab8RN6JFxh9sEr6mx0qxFaqL8rOyUFwogCpq13ATzb5tJrdS5A";
 
-// Robust multi-model API query starting with gemini-2.5-flash
 async function queryGemini(contents, systemInstructionText) {
   const models = [
     "gemini-2.5-flash",
@@ -56,7 +56,31 @@ export default function ChatPage() {
   const [messages, setMessages] = useState([]);
   const [started, setStarted] = useState(false);
   const [lastBooking, setLastBooking] = useState(null);
+  const [partnersInfo, setPartnersInfo] = useState("");
   const messagesEndRef = useRef(null);
+
+  // Fetch partnerships to make AI aware of all contracts
+  useEffect(() => {
+    async function fetchPartners() {
+      const { data, error } = await supabase
+        .from('partnerships')
+        .select('*')
+        .eq('is_active', true);
+
+      if (!error && data && data.length > 0) {
+        const formatted = data.map(p => `
+Partner Name: ${p.partner_name_ar} / ${p.partner_name_en}
+Description: ${p.description_ar || ''} / ${p.description_en || ''}
+Contract Date: ${p.contract_date || 'N/A'}
+Contract Details: ${p.contract_details_ar || ''} / ${p.contract_details_en || ''}
+        `).join('\n---\n');
+
+        setPartnersInfo(formatted);
+      }
+    }
+
+    fetchPartners();
+  }, []);
 
   const systemInstruction = `
 You are Sard AI Assistant (مساعد سرد للذكاء الاصطناعي).
@@ -70,7 +94,11 @@ Key Knowledge:
 2. B2C Services:
    - Personal daily tasks helper for individuals to complete work faster and simplify life.
    - AI as a supportive friend/co-pilot, not a threat.
-3. Appointments & Calendar Booking:
+3. Partnerships & Official Contracts Knowledge:
+Below are Sard AI's active strategic partnerships and contract details:
+${partnersInfo || "Sard AI maintains official partnerships with key industry leaders to provide integrated smart solutions."}
+
+4. Appointments & Calendar Booking:
    - Working hours: 12:00 PM to 12:00 AM.
    - If user asks to book a meeting (e.g., "أريد حجز موعد غداً الساعة 2 ظهراً"), acknowledge politely and append:
      "[BOOKING_REQUEST: Date: YYYY-MM-DD | Time: HH:MM AM/PM | Name: GuestName | Service: ServiceName]" at the end.
@@ -137,8 +165,8 @@ Key Knowledge:
       setMessages(prev => [...prev, {
         sender: "bot",
         text: isRTL
-          ? "أهلاً بك! يمكنك الاستفسار عن أتمتة الأعمال وتقليل التكاليف أو حجز موعد مباشرة من هنا."
-          : "Welcome! You can inquire about process automation or book a meeting directly here."
+          ? "أهلاً بك! يمكنك الاستفسار عن أتمتة الأعمال وسؤالنا عن شراكاتنا وتفاصيل عقودنا أو حجز موعد مباشرة من هنا."
+          : "Welcome! You can inquire about process automation, ask about our partnerships and contracts, or book a meeting directly."
       }]);
     }
 
@@ -198,8 +226,8 @@ Key Knowledge:
         {/* Initial Welcome Banner if no chat started */}
         {!started && (
           <div className="text-center py-12 space-y-4">
-            <div className="w-20 h-20 bg-brand-orange/10 border border-brand-orange/30 rounded-2xl flex items-center justify-center mx-auto mb-4 overflow-hidden p-2">
-              <img src={aiLogo} alt="AI Logo" className="w-full h-full object-contain animate-pulse" />
+            <div className="w-20 h-20 bg-brand-orange/10 border border-brand-orange/30 rounded-full flex items-center justify-center mx-auto mb-4 p-2 shadow-lg shadow-brand-orange/20">
+              <img src={aiLogo} alt="Sard AI Emblem" className="w-full h-full object-contain mix-blend-screen animate-pulse" />
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-white">{t('chat.welcomeTitle')}</h1>
             <p className="text-gray-400 text-base max-w-lg mx-auto">{t('chat.welcomeDesc')}</p>
@@ -220,7 +248,7 @@ Key Knowledge:
                 /* Pro AI Full-width Response Layout with Leaf Wreath Emblem */
                 <div className="w-full flex gap-4 p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm text-gray-100 leading-relaxed text-base sm:text-lg">
                   <div className="w-10 h-10 rounded-xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center shrink-0 p-1">
-                    <img src={aiLogo} alt="AI Avatar" className="w-full h-full object-contain" />
+                    <img src={aiLogo} alt="Sard AI Emblem" className="w-full h-full object-contain mix-blend-screen" />
                   </div>
                   <div className="flex-1 space-y-2 whitespace-pre-line">
                     <p className="text-xs font-bold text-brand-orange uppercase tracking-wider">Sard AI Assistant</p>
@@ -249,7 +277,7 @@ Key Knowledge:
               className="w-full flex gap-4 p-6 rounded-2xl bg-white/5 border border-white/10 items-center"
             >
               <div className="w-10 h-10 rounded-xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center shrink-0 p-1">
-                <img src={aiLogo} alt="AI Avatar" className="w-full h-full object-contain animate-spin" />
+                <img src={aiLogo} alt="Sard AI Emblem" className="w-full h-full object-contain mix-blend-screen animate-spin" />
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 bg-brand-orange rounded-full animate-bounce [animation-delay:-0.3s]" />
