@@ -1,11 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Calendar, CheckCircle2, ArrowRight, ArrowLeft, User } from "lucide-react";
+import { Calendar, CheckCircle2, ArrowRight, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { saveAppointment } from "../utils/calendarStorage";
 import { supabase } from "../integrations/supabase/client";
 import sardLogo from "../assets/logo.png";
-import aiLogo from "../assets/ai-logo.png";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import ThinkingIndicator from "./ThinkingIndicator";
@@ -60,7 +59,6 @@ export default function ChatPage() {
   const [partnersInfo, setPartnersInfo] = useState("");
   const messagesEndRef = useRef(null);
 
-  // Fetch partnerships to make AI aware of all contracts
   useEffect(() => {
     async function fetchPartners() {
       const { data, error } = await supabase
@@ -132,7 +130,6 @@ ${partnersInfo || "Sard AI maintains official partnerships with key industry lea
 
       let reply = await queryGemini(conversationContents, systemInstruction);
 
-      // Check if AI requested a calendar booking
       if (reply.includes("[BOOKING_REQUEST:")) {
         try {
           const match = reply.match(/\[BOOKING_REQUEST:\s*Date:\s*([\d-]+)\s*\|\s*Time:\s*([\d:\s\w]+)\s*\|\s*Name:\s*([^|]+)\s*\|\s*Service:\s*([^\]]+)\]/i);
@@ -198,22 +195,19 @@ ${partnersInfo || "Sard AI maintains official partnerships with key industry lea
 
       {/* Booking Success Banner */}
       {lastBooking && (
-        <div className="w-full max-w-4xl px-4 mt-4">
+        <div className="w-full max-w-3xl px-4 mt-4">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-4 rounded-xl bg-brand-orange/20 border border-brand-orange/40 flex items-center justify-between"
+            className="p-3 rounded-xl bg-brand-orange/20 border border-brand-orange/40 flex items-center justify-between text-xs"
           >
-            <div className="flex items-center gap-3">
-              <CheckCircle2 className="w-6 h-6 text-brand-orange" />
-              <div>
-                <p className="text-sm font-bold text-white">{t('chat.bookedBanner')}</p>
-                <p className="text-xs text-gray-300">{lastBooking.date} - {lastBooking.timeSlot}</p>
-              </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-brand-orange" />
+              <span>{t('chat.bookedBanner')} ({lastBooking.date} - {lastBooking.timeSlot})</span>
             </div>
             <Link
               to="/calendar"
-              className="px-3 py-1.5 bg-brand-orange text-black font-bold text-xs rounded-lg hover:bg-brand-orange-400"
+              className="px-2.5 py-1 bg-brand-orange text-black font-bold rounded hover:bg-brand-orange-400"
             >
               {t('chat.viewCalendar')}
             </Link>
@@ -221,54 +215,51 @@ ${partnersInfo || "Sard AI maintains official partnerships with key industry lea
         </div>
       )}
 
-      {/* Main Chat Stream Container */}
-      <div className="w-full max-w-4xl flex-1 flex flex-col px-4 py-6 space-y-8">
+      {/* Main Chat Stream Container directly on page background */}
+      <div className="w-full max-w-3xl flex-1 flex flex-col px-4 py-6 space-y-6">
 
-        {/* Initial Welcome Banner if no chat started */}
+        {/* Welcome Text */}
         {!started && (
-          <div className="text-center py-12 space-y-4">
-            <img src={aiLogo} alt="Sard AI Logo" className="w-24 h-24 object-contain mix-blend-screen mx-auto mb-2" />
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-white">{t('chat.welcomeTitle')}</h1>
-            <p className="text-gray-400 text-base max-w-lg mx-auto">{t('chat.welcomeDesc')}</p>
+          <div className="py-8 space-y-2">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white">{t('chat.welcomeTitle')}</h1>
+            <p className="text-gray-400 text-sm">{t('chat.welcomeDesc')}</p>
           </div>
         )}
 
-        {/* Messages Stream */}
+        {/* Messages List - Direct Text on Page */}
         <div className="flex-1 space-y-6">
           {messages.map((msg, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className={`w-full flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
+              transition={{ duration: 0.2 }}
+              className="w-full"
             >
               {msg.sender === "bot" ? (
-                /* Pro AI Full-width Clean Streaming Response with Formatted Markdown & Clean Emblem */
+                /* Plain Text AI Response on Page Background */
                 <StreamingBotMessage fullText={msg.text} isRTL={isRTL} />
               ) : (
-                /* Compact User Message Bubble */
-                <div className="flex items-center gap-3 max-w-[85%] sm:max-w-[70%]">
-                  <div className="px-5 py-3.5 rounded-2xl bg-brand-orange text-black font-semibold text-base shadow-lg shadow-brand-orange/20">
-                    {msg.text}
-                  </div>
-                  <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white shrink-0">
-                    <User className="w-5 h-5" />
+                /* Plain Text User Prompt */
+                <div className="w-full py-2 flex justify-end">
+                  <div className="text-right">
+                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block mb-1">You</span>
+                    <p className="text-brand-orange font-semibold text-base sm:text-lg">{msg.text}</p>
                   </div>
                 </div>
               )}
             </motion.div>
           ))}
 
-          {/* Reasoning & Thought Process Indicator */}
+          {/* Minimal Text Thinking Line */}
           {loading && <ThinkingIndicator isRTL={isRTL} />}
 
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Bar */}
+        {/* Bottom Input Box */}
         <div className="sticky bottom-4 z-20 pt-2">
-          <div className="flex items-center bg-black/90 border border-white/20 hover:border-brand-orange/60 focus-within:border-brand-orange rounded-2xl p-2 sm:p-3 shadow-2xl transition-all">
+          <div className="flex items-center bg-black border border-white/20 focus-within:border-brand-orange rounded-xl p-2 shadow-xl">
             <input
               type="text"
               value={textPrompt}
@@ -280,18 +271,18 @@ ${partnersInfo || "Sard AI maintains official partnerships with key industry lea
               }}
               onChange={(e) => setTextPrompt(e.target.value)}
               placeholder={t('chat.inputPlaceholder')}
-              className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none px-4 py-2 text-base sm:text-lg"
+              className="flex-1 bg-transparent text-white placeholder-gray-500 outline-none px-3 py-1.5 text-sm sm:text-base"
             />
             <button
               onClick={handleSubmit}
               disabled={loading || !textPrompt.trim()}
-              className={`p-3 sm:p-4 rounded-xl font-bold transition-all ${
+              className={`p-2.5 rounded-lg font-bold transition-all ${
                 textPrompt.trim() && !loading
-                  ? "bg-brand-orange text-black hover:bg-brand-orange-400 shadow-md shadow-brand-orange/30 cursor-pointer"
+                  ? "bg-brand-orange text-black hover:bg-brand-orange-400 cursor-pointer"
                   : "bg-white/10 text-gray-500 cursor-not-allowed"
               }`}
             >
-              {isRTL ? <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" /> : <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />}
+              {isRTL ? <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" /> : <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />}
             </button>
           </div>
         </div>

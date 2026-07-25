@@ -3,20 +3,19 @@ import React from 'react';
 export default function FormattedMarkdown({ content }) {
   if (!content) return null;
 
-  // Split into paragraphs / lines
   const lines = content.split('\n');
 
   return (
-    <div className="space-y-3 text-gray-100 leading-relaxed text-base sm:text-lg select-text">
+    <div className="space-y-2 text-gray-200 leading-relaxed text-base sm:text-lg select-text">
       {lines.map((line, idx) => {
         const trimmed = line.trim();
-        if (!trimmed) return <div key={idx} className="h-2" />;
+        if (!trimmed) return <div key={idx} className="h-1" />;
 
         // Header check ### or ##
         if (trimmed.startsWith('###') || trimmed.startsWith('##') || trimmed.startsWith('#')) {
           const cleanHeading = trimmed.replace(/^#+\s*/, '');
           return (
-            <h3 key={idx} className="text-xl sm:text-2xl font-extrabold text-brand-orange mt-4 mb-2">
+            <h3 key={idx} className="text-lg sm:text-xl font-bold text-brand-orange mt-3 mb-1">
               {parseBold(cleanHeading)}
             </h3>
           );
@@ -26,8 +25,8 @@ export default function FormattedMarkdown({ content }) {
         if (trimmed.startsWith('- ') || trimmed.startsWith('* ') || /^\d+\.\s/.test(trimmed)) {
           const cleanBullet = trimmed.replace(/^([-*]|\d+\.)\s*/, '');
           return (
-            <div key={idx} className="flex items-start gap-3 my-1.5 pl-2 sm:pl-4">
-              <span className="w-2 h-2 rounded-full bg-brand-orange mt-2.5 shrink-0" />
+            <div key={idx} className="flex items-start gap-2 my-1">
+              <span className="text-brand-orange font-bold">•</span>
               <p className="flex-1 text-gray-200">{parseBold(cleanBullet)}</p>
             </div>
           );
@@ -44,13 +43,12 @@ export default function FormattedMarkdown({ content }) {
   );
 }
 
-// Helper to replace **bold** tags cleanly with <strong>
 function parseBold(text) {
   const parts = text.split(/(\*\*.*?\*\*)/g);
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       return (
-        <strong key={i} className="font-bold text-white px-0.5">
+        <strong key={i} className="font-bold text-white">
           {part.slice(2, -2)}
         </strong>
       );
