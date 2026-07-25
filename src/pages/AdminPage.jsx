@@ -2,16 +2,22 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { getBookedAppointments, saveAppointment, deleteAppointment, TIME_SLOTS } from '../utils/calendarStorage';
-import { Lock, Calendar, Trash2, PlusCircle, Bot, CheckCircle, ShieldAlert, Cpu } from 'lucide-react';
+import { Lock, Calendar, Trash2, PlusCircle, Bot, Cpu } from 'lucide-react';
 import sardLogo from '../assets/logo.png';
+import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from '../components/LanguageSwitcher';
 
 export default function AdminPage() {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const navigate = useNavigate();
+
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [bookings, setBookings] = useState([]);
 
-  // AI Agent inside Admin
+  // AI Agent state
   const [agentPrompt, setAgentPrompt] = useState('');
   const [agentLog, setAgentLog] = useState('');
   const [agentLoading, setAgentLoading] = useState(false);
@@ -22,8 +28,6 @@ export default function AdminPage() {
   const [newName, setNewName] = useState('');
   const [newService, setNewService] = useState('أتمتة الأعمال وتوفير التكاليف');
 
-  const navigate = useNavigate();
-
   const handleLogin = (e) => {
     e.preventDefault();
     if (password === '246800') {
@@ -31,7 +35,7 @@ export default function AdminPage() {
       setErrorMsg('');
       setBookings(getBookedAppointments());
     } else {
-      setErrorMsg('كلمة المرور غير صحيحة');
+      setErrorMsg(t('admin.wrongPassword'));
     }
   };
 
@@ -48,34 +52,32 @@ export default function AdminPage() {
       date: newDate,
       timeSlot: newSlot,
       name: newName,
-      email: 'admin-created@sard.ai',
+      email: 'admin@sard.ai',
       service: newService,
-      notes: 'تم إنشاؤه عبر لوحة الأدمن'
+      notes: 'Created via Admin Dashboard'
     });
 
     setBookings(getBookedAppointments());
     setNewName('');
   };
 
-  // Admin AI Agent logic to automatically parse instructions and manage calendar
   const handleAgentRun = () => {
     if (!agentPrompt.trim()) return;
     setAgentLoading(true);
 
     setTimeout(() => {
-      // Simulate AI Agent processing instruction
       const today = new Date().toISOString().split('T')[0];
-      const created = saveAppointment({
+      saveAppointment({
         date: today,
         timeSlot: '03:00 PM',
-        name: 'موعد منسق بواسطة AI Agent',
+        name: 'AI Agent Scheduled Meeting',
         email: 'agent@sard.ai',
-        service: 'أتمتة وحجز آلي للأدمن',
-        notes: `طلب المساعد: ${agentPrompt}`
+        service: 'Auto-Scheduled Consultation',
+        notes: `AI Prompt: ${agentPrompt}`
       });
 
       setBookings(getBookedAppointments());
-      setAgentLog(`✅ قام AI Agent بتحليل طلبك: "${agentPrompt}" وتم إضافة الموعد بنجاح في الكالندر.`);
+      setAgentLog(isRTL ? `✅ تم تنفيذ طلبك "${agentPrompt}" وإنشاء الموعد في الكالندر.` : `✅ Executed "${agentPrompt}" and created meeting.`);
       setAgentPrompt('');
       setAgentLoading(false);
     }, 1000);
@@ -91,8 +93,8 @@ export default function AdminPage() {
         >
           <img src={sardLogo} alt="Sard AI" className="w-16 h-16 object-contain mx-auto" />
           <div className="space-y-2">
-            <h1 className="text-2xl font-bold text-white">لوحة تحكم الأدمن | Sard AI</h1>
-            <p className="text-xs text-gray-400">يرجى إدخال رمز المرور الخاص بالإدارة للدخول</p>
+            <h1 className="text-2xl font-bold text-white">{t('admin.title')}</h1>
+            <p className="text-xs text-gray-400">{t('admin.enterPassword')}</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
@@ -101,7 +103,7 @@ export default function AdminPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="رمز الدخول..."
+                placeholder={t('admin.passwordPlaceholder')}
                 className="w-full bg-black/60 border border-white/20 rounded-xl px-4 py-3 text-center text-white outline-none focus:border-brand-orange text-lg tracking-widest"
               />
               <Lock className="w-4 h-4 text-gray-400 absolute left-4 top-4" />
@@ -115,7 +117,7 @@ export default function AdminPage() {
               type="submit"
               className="w-full py-3 rounded-xl bg-brand-orange text-black font-bold hover:bg-brand-orange-400 transition-all"
             >
-              تسجيل الدخول
+              {t('admin.login')}
             </button>
           </form>
         </motion.div>
@@ -132,35 +134,36 @@ export default function AdminPage() {
           <div className="flex items-center gap-3">
             <img src={sardLogo} alt="Sard AI" className="w-10 h-10 object-contain" />
             <div>
-              <h1 className="font-bold text-lg text-white">لوحة الإدارة والحجوزات (Admin)</h1>
-              <p className="text-xs text-brand-orange">Sard AI Admin Dashboard</p>
+              <h1 className="font-bold text-lg text-white">{t('admin.dashboardTitle')}</h1>
+              <p className="text-xs text-brand-orange">Sard AI Admin Panel</p>
             </div>
           </div>
 
-          <button
-            onClick={() => navigate('/')}
-            className="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs sm:text-sm text-gray-300"
-          >
-            الخروج إلى الرئيسية
-          </button>
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <button
+              onClick={() => navigate('/')}
+              className="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs sm:text-sm text-gray-300"
+            >
+              {t('admin.exit')}
+            </button>
+          </div>
         </div>
 
-        {/* AI Agent Helper Box */}
+        {/* AI Agent Box */}
         <div className="p-6 rounded-2xl bg-gradient-to-r from-brand-orange/15 via-black to-black border border-brand-orange/30 space-y-4">
           <div className="flex items-center gap-3 text-brand-orange">
             <Bot className="w-6 h-6" />
-            <h2 className="text-xl font-bold text-white">Admin AI Agent - مساعد الأدمن الذكي</h2>
+            <h2 className="text-xl font-bold text-white">{t('admin.agentTitle')}</h2>
           </div>
-          <p className="text-xs text-gray-300">
-            يمكنك إدخال أوامر ذكية للمساعد لإنشاء المواعيد أو معالجة الطلبات تلقائياً في الجدول.
-          </p>
+          <p className="text-xs text-gray-300">{t('admin.agentDesc')}</p>
 
           <div className="flex gap-2">
             <input
               type="text"
               value={agentPrompt}
               onChange={(e) => setAgentPrompt(e.target.value)}
-              placeholder="مثال: قم بجدولة اجتماع مع شركة جديدة اليوم الساعة 3 مساءً..."
+              placeholder={t('admin.agentPlaceholder')}
               className="flex-1 bg-black/60 border border-white/20 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-brand-orange"
             />
             <button
@@ -168,7 +171,7 @@ export default function AdminPage() {
               disabled={agentLoading}
               className="px-5 py-2.5 rounded-xl bg-brand-orange text-black font-bold text-sm hover:bg-brand-orange-400 flex items-center gap-2"
             >
-              {agentLoading ? <Cpu className="animate-spin w-4 h-4" /> : "تنفيذ بواسطة AI"}
+              {agentLoading ? <Cpu className="animate-spin w-4 h-4" /> : t('admin.executeAI')}
             </button>
           </div>
 
@@ -179,20 +182,19 @@ export default function AdminPage() {
           )}
         </div>
 
-        {/* Admin Section Grid */}
+        {/* Grid */}
         <div className="grid lg:grid-cols-12 gap-8">
 
-          {/* Bookings Table */}
           <div className="lg:col-span-8 bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
             <div className="flex justify-between items-center border-b border-white/10 pb-3">
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-brand-orange" />
-                <span>قائمة المواعيد الحالية ({bookings.length})</span>
+                <span>{t('admin.currentBookings')} ({bookings.length})</span>
               </h3>
             </div>
 
             {bookings.length === 0 ? (
-              <p className="text-sm text-gray-500 py-8 text-center">لا توجد مواعيد محجوزة حالياً.</p>
+              <p className="text-sm text-gray-500 py-8 text-center">{t('admin.noBookings')}</p>
             ) : (
               <div className="space-y-3">
                 {bookings.map((b) => (
@@ -207,14 +209,12 @@ export default function AdminPage() {
                           {b.timeSlot}
                         </span>
                       </div>
-                      <p className="text-xs text-gray-400">التاريخ: {b.date} | الخدمة: {b.service}</p>
-                      {b.notes && <p className="text-xs text-gray-500 italic">ملاحظات: {b.notes}</p>}
+                      <p className="text-xs text-gray-400">{b.date} | {b.service}</p>
                     </div>
 
                     <button
                       onClick={() => handleDelete(b.id)}
                       className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
-                      title="حذف الموعد"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -224,28 +224,26 @@ export default function AdminPage() {
             )}
           </div>
 
-          {/* Manual Appointment Creator */}
           <div className="lg:col-span-4 bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
             <h3 className="text-lg font-bold text-white border-b border-white/10 pb-3 flex items-center gap-2">
               <PlusCircle className="w-5 h-5 text-brand-orange" />
-              <span>إضافة موعد يدوي</span>
+              <span>{t('admin.manualAdd')}</span>
             </h3>
 
             <form onSubmit={handleManualAdd} className="space-y-3 text-xs">
               <div>
-                <label className="text-gray-300 mb-1 block">اسم العميل / الجهة</label>
+                <label className="text-gray-300 mb-1 block">{t('admin.clientName')}</label>
                 <input
                   type="text"
                   required
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
-                  placeholder="الاسم الكامل..."
                   className="w-full bg-black/60 border border-white/20 rounded-xl px-3 py-2 text-white outline-none focus:border-brand-orange"
                 />
               </div>
 
               <div>
-                <label className="text-gray-300 mb-1 block">التاريخ</label>
+                <label className="text-gray-300 mb-1 block">{t('admin.date')}</label>
                 <input
                   type="date"
                   value={newDate}
@@ -255,7 +253,7 @@ export default function AdminPage() {
               </div>
 
               <div>
-                <label className="text-gray-300 mb-1 block">الساعة</label>
+                <label className="text-gray-300 mb-1 block">{t('admin.time')}</label>
                 <select
                   value={newSlot}
                   onChange={(e) => setNewSlot(e.target.value)}
@@ -267,21 +265,11 @@ export default function AdminPage() {
                 </select>
               </div>
 
-              <div>
-                <label className="text-gray-300 mb-1 block">نوع الخدمة</label>
-                <input
-                  type="text"
-                  value={newService}
-                  onChange={(e) => setNewService(e.target.value)}
-                  className="w-full bg-black/60 border border-white/20 rounded-xl px-3 py-2 text-white outline-none focus:border-brand-orange"
-                />
-              </div>
-
               <button
                 type="submit"
                 className="w-full py-2.5 rounded-xl bg-brand-orange text-black font-bold hover:bg-brand-orange-400 mt-2"
               >
-                إضافة للمخطط
+                {t('admin.addToList')}
               </button>
             </form>
           </div>

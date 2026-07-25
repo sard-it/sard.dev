@@ -81,6 +81,53 @@
       "description": "Uncompromising commitment to user privacy and AI ethics."
     }
   },
+  "calendar": {
+    "badge": "Available Slots & Booking Calendar",
+    "title": "Schedule Your Consultation with Sard AI",
+    "subtitle": "Select an available slot below. Already booked slots are shaded and locked for privacy.",
+    "successTitle": "Appointment Successfully Booked!",
+    "successDesc": "Your booking details have been saved in your browser.",
+    "selectDate": "Select Date:",
+    "workingHours": "Default active business hours: 12:00 PM to 12:00 AM.",
+    "slotsLabel": "Time Slots Availability:",
+    "booked": "Booked",
+    "confirmTitle": "Complete Booking Request",
+    "fullName": "Full Name *",
+    "email": "Email Address",
+    "service": "Requested Service *",
+    "notes": "Additional Notes",
+    "confirmButton": "Confirm Booking",
+    "selectSlotFirst": "Select a slot first"
+  },
+  "admin": {
+    "title": "Admin Control Panel | Sard AI",
+    "enterPassword": "Please enter admin passkey to proceed",
+    "passwordPlaceholder": "Passkey...",
+    "wrongPassword": "Incorrect password",
+    "login": "Login",
+    "dashboardTitle": "Admin Booking Control Dashboard",
+    "exit": "Back to Home",
+    "agentTitle": "Admin AI Agent",
+    "agentDesc": "You can issue smart AI commands to auto-schedule or manage meetings on the calendar.",
+    "agentPlaceholder": "Example: Schedule a meeting with a new client today at 03:00 PM...",
+    "executeAI": "Execute via AI",
+    "currentBookings": "Current Appointments",
+    "noBookings": "No appointments booked currently.",
+    "manualAdd": "Add Appointment Manually",
+    "clientName": "Client Name / Org",
+    "date": "Date",
+    "time": "Time Slot",
+    "serviceType": "Service Type",
+    "addToList": "Add to Calendar"
+  },
+  "chat": {
+    "title": "Sard AI Assistant",
+    "welcomeTitle": "Welcome to Sard AI Assistant",
+    "welcomeDesc": "Your smart partner for process automation, cost reduction, appointment booking, and daily task assistance.",
+    "inputPlaceholder": "Type your query or request an appointment...",
+    "bookedBanner": "Meeting Confirmed via Chat!",
+    "viewCalendar": "View Calendar"
+  },
   "cta": {
     "title": "Start Your Success Journey Today",
     "description": "Let us help you automate your business operations and reduce costs, or simplify your daily tasks with modern AI.",

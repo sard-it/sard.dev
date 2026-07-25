@@ -26,7 +26,6 @@ export default function CalendarPage() {
     setBookings(getBookedAppointments());
   }, []);
 
-  // Filter booked time slots for the selected date
   const bookedSlotsForDate = bookings
     .filter(b => b.date === selectedDate)
     .map(b => b.timeSlot);
@@ -88,15 +87,13 @@ export default function CalendarPage() {
         <div className="text-center space-y-3">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-orange/20 border border-brand-orange/30 text-brand-orange text-xs sm:text-sm font-bold">
             <CalendarIcon className="w-4 h-4" />
-            <span>{isRTL ? "جدول المواعيد الشاغرة والحجوزات" : "Available Slots & Booking Calendar"}</span>
+            <span>{t('calendar.badge')}</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white">
-            {isRTL ? "احجز موعد استشارتك مع فريق Sard AI" : "Schedule Your Consultation with Sard AI"}
+            {t('calendar.title')}
           </h1>
           <p className="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto">
-            {isRTL
-              ? "يمكنك اختيار الموعد المناسب من الأوقات الشاغرة أدناه. المواعيد المحجوزة مسبقاً تظهر مظللة ومغلقة لحماية الخصوصية."
-              : "Select an available slot below. Already booked slots are shaded and locked for privacy."}
+            {t('calendar.subtitle')}
           </p>
         </div>
 
@@ -109,22 +106,21 @@ export default function CalendarPage() {
           >
             <CheckCircle2 className="w-6 h-6 shrink-0 text-green-400" />
             <div>
-              <p className="font-bold text-sm sm:text-base">{isRTL ? "تم حجز الموعد بنجاح!" : "Appointment Successfully Booked!"}</p>
-              <p className="text-xs">{isRTL ? "تم حفظ بيانات الموعد في المتصفح الخاص بك بنجاح." : "Your booking details have been saved."}</p>
+              <p className="font-bold text-sm sm:text-base">{t('calendar.successTitle')}</p>
+              <p className="text-xs">{t('calendar.successDesc')}</p>
             </div>
           </motion.div>
         )}
 
         <div className="grid lg:grid-cols-12 gap-8 items-start">
           
-          {/* Left Column: Date and Slots Picker */}
+          {/* Date and Slots Picker */}
           <div className="lg:col-span-7 bg-white/5 border border-white/10 rounded-2xl p-6 space-y-6">
             
-            {/* Date Input */}
             <div className="space-y-2">
               <label className="text-sm font-bold text-gray-300 flex items-center gap-2">
                 <CalendarIcon className="w-4 h-4 text-brand-orange" />
-                <span>{isRTL ? "اختر اليوم المطلوب:" : "Select Date:"}</span>
+                <span>{t('calendar.selectDate')}</span>
               </label>
               <input
                 type="date"
@@ -138,20 +134,14 @@ export default function CalendarPage() {
               />
             </div>
 
-            {/* Default Restrict Notice */}
             <div className="text-xs text-gray-400 bg-white/5 p-3 rounded-lg border border-white/10 flex items-center gap-2">
               <Clock className="w-4 h-4 text-brand-orange shrink-0" />
-              <span>
-                {isRTL
-                  ? "الساعات الافتراضية المتاحة بين 09:00 صباحاً وحتى 08:00 مساءً."
-                  : "Default active business hours: 09:00 AM to 08:00 PM."}
-              </span>
+              <span>{t('calendar.workingHours')}</span>
             </div>
 
-            {/* Time Slots Grid */}
             <div className="space-y-3">
               <label className="text-sm font-bold text-gray-300">
-                {isRTL ? "الساعات المتاحة والمحجوزة لهذا اليوم:" : "Time Slots Availability:"}
+                {t('calendar.slotsLabel')}
               </label>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -168,7 +158,7 @@ export default function CalendarPage() {
                         <span className="text-xs font-semibold">{slot}</span>
                         <div className="flex items-center gap-1 text-[10px] text-gray-400">
                           <Lock className="w-3 h-3" />
-                          <span>{isRTL ? "محجوز" : "Booked"}</span>
+                          <span>{t('calendar.booked')}</span>
                         </div>
                       </div>
                     );
@@ -194,27 +184,27 @@ export default function CalendarPage() {
             </div>
           </div>
 
-          {/* Right Column: Booking Form */}
+          {/* Booking Form */}
           <div className="lg:col-span-5 bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
             <h3 className="text-xl font-bold text-white border-b border-white/10 pb-3">
-              {isRTL ? "تأكيد تفاصيل الحجز" : "Complete Booking Request"}
+              {t('calendar.confirmTitle')}
             </h3>
 
             <form onSubmit={handleBookingSubmit} className="space-y-4 text-sm">
               <div className="space-y-1">
-                <label className="text-gray-300 text-xs font-semibold">{isRTL ? "الاسم الكريم *" : "Full Name *"}</label>
+                <label className="text-gray-300 text-xs font-semibold">{t('calendar.fullName')}</label>
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder={isRTL ? "اسمك الكامل" : "John Doe"}
+                  placeholder="Full Name"
                   className="w-full bg-black/60 border border-white/20 rounded-xl px-4 py-2.5 text-white focus:border-brand-orange outline-none"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-gray-300 text-xs font-semibold">{isRTL ? "البريد الإلكتروني" : "Email Address"}</label>
+                <label className="text-gray-300 text-xs font-semibold">{t('calendar.email')}</label>
                 <input
                   type="email"
                   value={email}
@@ -225,7 +215,7 @@ export default function CalendarPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-gray-300 text-xs font-semibold">{isRTL ? "نوع الخدمة المطلوبة *" : "Requested Service *"}</label>
+                <label className="text-gray-300 text-xs font-semibold">{t('calendar.service')}</label>
                 <select
                   value={service}
                   onChange={(e) => setService(e.target.value)}
@@ -239,12 +229,12 @@ export default function CalendarPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-gray-300 text-xs font-semibold">{isRTL ? "ملاحظات إضافية" : "Additional Notes"}</label>
+                <label className="text-gray-300 text-xs font-semibold">{t('calendar.notes')}</label>
                 <textarea
                   rows="3"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder={isRTL ? "اكتب أي ملاحظة عن موعدك..." : "Any details about your inquiry..."}
+                  placeholder="..."
                   className="w-full bg-black/60 border border-white/20 rounded-xl px-4 py-2.5 text-white focus:border-brand-orange outline-none"
                 />
               </div>
@@ -260,8 +250,8 @@ export default function CalendarPage() {
                   }`}
                 >
                   {selectedSlot
-                    ? `${isRTL ? "تأكيد حجز الموعد" : "Confirm Booking"} (${selectedSlot})`
-                    : isRTL ? "اختر الموعد أولاً" : "Select a slot first"}
+                    ? `${t('calendar.confirmButton')} (${selectedSlot})`
+                    : t('calendar.selectSlotFirst')}
                 </button>
               </div>
             </form>
