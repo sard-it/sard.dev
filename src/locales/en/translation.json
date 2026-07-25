@@ -1,21 +1,22 @@
 {
   "hero": {
-    "title": "Smart AI Solutions for Individuals & Businesses",
-    "description1": "At Sard AI, we innovate advanced solutions that empower businesses to automate daily operations, cut operational costs, maximize efficiency, save money, and boost productivity to the highest level.",
-    "description2": "We also support individuals in their daily lives to complete tasks faster, simplify work, and ease life — AI is your true partner and co-pilot, not your competitor.",
+    "title": "Smart AI Solutions for Individuals & Businesses in Egypt & Beyond",
+    "description1": "Based in Egypt, Sard AI develops advanced AI solutions that empower businesses to automate daily operations, lower costs, and maximize throughput with ultra-fast speed and robust data protection.",
+    "description2": "We empower individuals and organizations to streamline tasks while actively supporting the targets of Egypt's Vision 2030 for a sustainable digital economy.",
     "exploreButton": "Explore Our Solutions",
     "contactButton": "Contact Us",
     "bookMeeting": "Book a Meeting",
-    "tagline": "Your Smart Partner for Growth & Daily Life"
+    "tagline": "Your Smart Partner for Growth & Daily Life",
+    "egyptBadge": "🇪🇬 Based in Egypt | Data Privacy & Ultra Speed | Supporting Egypt Vision 2030"
   },
   "about": {
     "title": "About Us",
-    "paragraph1": "Sard AI is your premier destination for digital transformation and intelligent solutions. We empower organizations and individuals to leverage cutting-edge AI technology effortlessly.",
-    "paragraph2": "We assist companies in boosting operational performance and eliminating financial waste, while providing individuals with smart tools that accomplish daily tasks quickly.",
-    "paragraph3": "We believe AI is a genuine partner that opens new horizons for creativity and productivity.",
+    "paragraph1": "Sard AI is Egypt's premier AI destination for digital transformation and intelligent solutions, enabling companies and individuals to leverage cutting-edge AI safely and efficiently.",
+    "paragraph2": "We adhere to strict data privacy and security standards while actively contributing to Egypt's Vision 2030 for sustainable innovation and economic growth.",
+    "paragraph3": "We believe AI is a genuine partner that delivers ultra-fast automation, cost savings, and uncompromised privacy.",
     "stats": {
-      "solutions": "Tailored AI Solutions",
-      "mindset": "Maximum Automation & Efficiency"
+      "solutions": "Aligned with Egypt Vision 2030",
+      "mindset": "Total Data Security & High Speed"
     }
   },
   "partners": {
@@ -37,24 +38,24 @@
       "description": "Turn raw data into actionable decisions that maximize overall efficiency and throughput."
     },
     "performance": {
-      "title": "Business Acceleration",
-      "description": "Evolving intelligent systems designed to speed up workflows and raise quality standards."
+      "title": "Ultra-Fast Business Acceleration",
+      "description": "Evolving intelligent systems designed to speed up workflows and raise quality standards with maximum speed."
     },
     "cloud": {
       "title": "Smart Cloud Integration",
       "description": "Fast and lightweight connection between your existing software and modern AI models."
     },
     "security": {
-      "title": "Data Security & Privacy",
-      "description": "Enterprise-grade protection ensuring complete confidentiality for users and organizations."
+      "title": "Data Protection & Complete Privacy",
+      "description": "Enterprise-grade protection ensuring complete data privacy and security for users and organizations."
     }
   },
   "vision": {
     "title": "Our Vision",
-    "subtitle": "AI as an Empowering Co-Pilot for Work and Daily Life",
-    "paragraph1": "We envision a digital ecosystem where technology acts as a true partner easing daily life and expanding business profitability.",
-    "paragraph2": "We focus on automating business workflows to minimize financial waste and save time for human creativity.",
-    "paragraph3": "Our goal is to make artificial intelligence a reliable companion that enhances both quality of life and work.",
+    "subtitle": "Driving Digital Transformation aligned with Egypt Vision 2030",
+    "paragraph1": "We envision a digital ecosystem where technology acts as a true partner easing daily life and expanding business profitability across Egypt and the region.",
+    "paragraph2": "We focus on automating business workflows to minimize financial waste and save time while guaranteeing strict data protection and privacy.",
+    "paragraph3": "Our key objective is to contribute directly to achieving the goals of Egypt's Vision 2030 for a digital and sustainable knowledge economy.",
     "quote": "AI wasn't created to replace you, but to be the partner that saves your time and multiplies your success."
   },
   "values": {
@@ -73,12 +74,12 @@
       "description": "Every tool we build aims directly at saving costs and increasing productivity."
     },
     "innovation": {
-      "title": "Advanced Automation",
-      "description": "Utilizing state-of-the-art AI models to speed up operational cycles."
+      "title": "Advanced Ultra-Fast Automation",
+      "description": "Utilizing state-of-the-art AI models to speed up operational cycles at maximum efficiency."
     },
     "ethical": {
-      "title": "Security & Transparency",
-      "description": "Uncompromising commitment to user privacy and AI ethics."
+      "title": "Data Protection & Privacy",
+      "description": "Uncompromising commitment to user privacy, data security, and AI ethics."
     }
   },
   "calendar": {
@@ -123,23 +124,23 @@
   "chat": {
     "title": "Sard AI Assistant",
     "welcomeTitle": "Welcome to Sard AI Assistant",
-    "welcomeDesc": "Your smart partner for process automation, cost reduction, appointment booking, and daily task assistance.",
+    "welcomeDesc": "Your smart partner for process automation, cost reduction, data privacy, and task assistance.",
     "inputPlaceholder": "Type your query or request an appointment...",
     "bookedBanner": "Meeting Confirmed via Chat!",
     "viewCalendar": "View Calendar"
   },
   "cta": {
     "title": "Start Your Success Journey Today",
-    "description": "Let us help you automate your business operations and reduce costs, or simplify your daily tasks with modern AI.",
+    "description": "Let us help you automate your business operations, save costs, protect data, and align with Egypt Vision 2030 targets.",
     "getStarted": "Book a Meeting Now",
     "learnMore": "Chat with Sard AI",
-    "question": "Ready to maximize business efficiency and ease your daily tasks?",
+    "question": "Ready to maximize business efficiency, protect data privacy, and boost speed?",
     "callToAction": "We are here to be your smart partner into the future."
   },
   "footer": {
-    "tagline": "Smart AI Solutions for Individuals & Businesses",
+    "tagline": "Smart AI Solutions for Individuals & Businesses - Arab Republic of Egypt",
     "rights": "All rights reserved.",
-    "privacy": "Privacy Policy",
+    "privacy": "Privacy & Data Protection Policy",
     "terms": "Terms of Service",
     "contact": "Contact Us"
   }

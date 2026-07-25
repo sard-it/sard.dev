@@ -10,12 +10,12 @@ const SplitText = ({
   text,
   className = "",
   splitType = "chars",
-  from = { opacity: 0, y: 40 },
+  from = { opacity: 0, y: 30 },
   to = { opacity: 1, y: 0 },
   delay = 50,
   duration = 0.6,
   ease = "power3.out",
-  direction = "ltr", // Pass from LanguageSwitcher
+  direction = "ltr",
   tag = "p",
   onLetterAnimationComplete,
 }) => {
@@ -27,13 +27,16 @@ const SplitText = ({
     else document.fonts.ready.then(() => setFontsLoaded(true));
   }, []);
 
+  const containsArabic = /[\u0600-\u06FF]/.test(text || "");
+  const isArabic = direction === "rtl" || containsArabic;
+
   useGSAP(
     () => {
       if (!ref.current || !text || !fontsLoaded) return;
 
       const el = ref.current;
-      el.style.direction = direction;
-      el.style.unicodeBidi = "plaintext";
+      const computedDir = isArabic ? "rtl" : "ltr";
+      el.style.direction = computedDir;
 
       // Kill old ScrollTriggers
       ScrollTrigger.getAll().forEach((st) => {
@@ -49,14 +52,19 @@ const SplitText = ({
       }
 
       const start = `top ${100 * (1 - 0.1)}%+=-100px`;
-      const isArabic = direction === "rtl";
 
       if (isArabic) {
-        // Animate Arabic as a single block
+        // Animate Arabic smoothly without splitting characters (prevents broken/reversed Arabic letters)
         gsap.fromTo(
           el,
           { ...from },
-          { ...to, duration, ease, scrollTrigger: { trigger: el, start, once: true }, onComplete: onLetterAnimationComplete }
+          {
+            ...to,
+            duration,
+            ease,
+            scrollTrigger: { trigger: el, start, once: true },
+            onComplete: onLetterAnimationComplete,
+          }
         );
         return;
       }
@@ -73,12 +81,19 @@ const SplitText = ({
       gsap.fromTo(
         targets,
         { ...from },
-        { ...to, duration, ease, stagger: delay / 1000, scrollTrigger: { trigger: el, start, once: true }, onComplete: onLetterAnimationComplete }
+        {
+          ...to,
+          duration,
+          ease,
+          stagger: delay / 1000,
+          scrollTrigger: { trigger: el, start, once: true },
+          onComplete: onLetterAnimationComplete,
+        }
       );
 
       el._splitInstance = split;
     },
-    [text, direction, fontsLoaded]
+    [text, direction, isArabic, fontsLoaded]
   );
 
   const Tag = tag;
@@ -86,16 +101,15 @@ const SplitText = ({
   return (
     <Tag
       ref={ref}
-      dir={direction}
-      lang={direction === "rtl" ? "ar" : "en"}
+      dir={isArabic ? "rtl" : "ltr"}
+      lang={isArabic ? "ar" : "en"}
       style={{
-        textAlign: direction === "rtl" ? "right" : "left",
-        direction,
-        unicodeBidi: "plaintext",
+        textAlign: isArabic ? "right" : "left",
+        direction: isArabic ? "rtl" : "ltr",
         wordWrap: "break-word",
         willChange: "transform, opacity",
       }}
-      className={`split-parent overflow-hidden inline-block whitespace-normal ${className}`}
+      className={`inline-block whitespace-normal ${className}`}
     >
       {text}
     </Tag>
