@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { TypewriterText } from './TypewriterText';
 import sardITLogo from '../assets/logo.png';
 import SplitText from './SplitText';
 import { LanguageSwitcher } from './LanguageSwitcher';
@@ -83,13 +82,6 @@ export const HeroSection = () => {
                 {isRTL ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
               </motion.button>
             </Link>
-          </div>
-
-          <div className="pt-4">
-            <TypewriterText
-              text={t('hero.tagline')}
-              className="text-xl sm:text-2xl font-light italic text-brand-orange"
-            />
           </div>
 
         </div>
