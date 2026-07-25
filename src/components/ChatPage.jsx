@@ -10,7 +10,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 import ThinkingIndicator from "./ThinkingIndicator";
 import StreamingBotMessage from "./StreamingBotMessage";
 
-const GEMINI_API_KEY = "AQ.Ab8RN6JFxh9sEr6mx0qxFaqL8rOyUFwogCpq13ATzb5tJrdS5A";
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
 
 async function queryGemini(contents, systemInstructionText) {
   const models = [
