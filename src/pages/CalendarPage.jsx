@@ -5,6 +5,7 @@ import { getBookedAppointments, saveAppointment, TIME_SLOTS } from '../utils/cal
 import { useTranslation } from 'react-i18next';
 import { Calendar as CalendarIcon, Clock, Lock, CheckCircle2, ArrowRight, ArrowLeft, Bot, PlusCircle } from 'lucide-react';
 import sardLogo from '../assets/logo.png';
+import aiLogo from '../assets/ai-logo.png';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 
 export default function CalendarPage() {
@@ -12,12 +13,26 @@ export default function CalendarPage() {
   const navigate = useNavigate();
   const isRTL = i18n.language === 'ar';
 
-  const todayStr = new Date().toISOString().split('T')[0];
+  const todayDateObj = new Date();
+  const todayStr = todayDateObj.toISOString().split('T')[0];
+
+  // Generate current week dates starting from today
+  const weekDays = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    d.setDate(todayDateObj.getDate() + i);
+    return {
+      dateStr: d.toISOString().split('T')[0],
+      dayNameAr: d.toLocaleDateString('ar-EG', { weekday: 'short' }),
+      dayNameEn: d.toLocaleDateString('en-US', { weekday: 'short' }),
+      dayNumber: d.getDate()
+    };
+  });
+
   const [selectedDate, setSelectedDate] = useState(todayStr);
   const [selectedSlot, setSelectedSlot] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [service, setService] = useState('أتمتة العمليات وتقليل التكاليف');
+  const [service, setService] = useState('');
   const [notes, setNotes] = useState('');
   const [bookings, setBookings] = useState([]);
   const [successMsg, setSuccessMsg] = useState(false);
@@ -39,7 +54,7 @@ export default function CalendarPage() {
       timeSlot: selectedSlot,
       name,
       email,
-      service,
+      service: service || (isRTL ? "استشارة أتمتة وحلول ذكاء اصطناعي" : "AI Consultation"),
       notes
     });
 
@@ -48,6 +63,7 @@ export default function CalendarPage() {
     setSelectedSlot('');
     setName('');
     setEmail('');
+    setService('');
     setNotes('');
 
     setTimeout(() => setSuccessMsg(false), 5000);
@@ -76,7 +92,7 @@ export default function CalendarPage() {
               to="/ai"
               className="flex items-center gap-2 px-3 py-2 bg-brand-orange/10 border border-brand-orange/30 text-brand-orange rounded-lg text-xs sm:text-sm font-semibold hover:bg-brand-orange/20"
             >
-              <Bot className="w-4 h-4" />
+              <img src={aiLogo} alt="AI" className="w-5 h-5 object-contain" />
               <span>{isRTL ? "الحجز بواسطة AI" : "Book via AI"}</span>
             </Link>
             <LanguageSwitcher />
@@ -114,14 +130,46 @@ export default function CalendarPage() {
 
         <div className="grid lg:grid-cols-12 gap-8 items-start">
           
-          {/* Date and Slots Picker */}
+          {/* Date Picker & Current Week Buttons + Slots */}
           <div className="lg:col-span-7 bg-white/5 border border-white/10 rounded-2xl p-6 space-y-6">
             
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-300 flex items-center gap-2">
-                <CalendarIcon className="w-4 h-4 text-brand-orange" />
-                <span>{t('calendar.selectDate')}</span>
+            {/* Week Days Quick Bar */}
+            <div className="space-y-3">
+              <label className="text-sm font-bold text-gray-300 flex items-center justify-between">
+                <span className="flex items-center gap-2">
+                  <CalendarIcon className="w-4 h-4 text-brand-orange" />
+                  {isRTL ? "أيام هذا الأسبوع:" : "Current Week:"}
+                </span>
+                <span className="text-xs text-brand-orange font-mono">{selectedDate}</span>
               </label>
+
+              <div className="grid grid-cols-7 gap-1.5 text-center">
+                {weekDays.map((day) => {
+                  const isSelected = selectedDate === day.dateStr;
+                  return (
+                    <button
+                      key={day.dateStr}
+                      type="button"
+                      onClick={() => {
+                        setSelectedDate(day.dateStr);
+                        setSelectedSlot('');
+                      }}
+                      className={`p-2.5 rounded-xl border flex flex-col items-center justify-center transition-all ${
+                        isSelected
+                          ? "bg-brand-orange text-black font-bold border-brand-orange shadow-md scale-105"
+                          : "bg-black/50 border-white/15 text-gray-300 hover:border-brand-orange/60"
+                      }`}
+                    >
+                      <span className="text-[10px] uppercase font-semibold">{isRTL ? day.dayNameAr : day.dayNameEn}</span>
+                      <span className="text-sm font-bold mt-0.5">{day.dayNumber}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Custom Date Input Fallback */}
+            <div className="pt-2">
               <input
                 type="date"
                 min={todayStr}
@@ -130,7 +178,7 @@ export default function CalendarPage() {
                   setSelectedDate(e.target.value);
                   setSelectedSlot('');
                 }}
-                className="w-full bg-black/60 border border-white/20 rounded-xl px-4 py-3 text-white focus:border-brand-orange outline-none"
+                className="w-full bg-black/60 border border-white/20 rounded-xl px-4 py-2 text-xs sm:text-sm text-white focus:border-brand-orange outline-none"
               />
             </div>
 
@@ -184,7 +232,7 @@ export default function CalendarPage() {
             </div>
           </div>
 
-          {/* Booking Form */}
+          {/* Booking Form with Free Input for Service Type */}
           <div className="lg:col-span-5 bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
             <h3 className="text-xl font-bold text-white border-b border-white/10 pb-3">
               {t('calendar.confirmTitle')}
@@ -198,7 +246,7 @@ export default function CalendarPage() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Full Name"
+                  placeholder={isRTL ? "الاسم الكريم" : "Full Name"}
                   className="w-full bg-black/60 border border-white/20 rounded-xl px-4 py-2.5 text-white focus:border-brand-orange outline-none"
                 />
               </div>
@@ -214,18 +262,19 @@ export default function CalendarPage() {
                 />
               </div>
 
+              {/* Free Text Input for Requested Service or Topic */}
               <div className="space-y-1">
-                <label className="text-gray-300 text-xs font-semibold">{t('calendar.service')}</label>
-                <select
+                <label className="text-gray-300 text-xs font-semibold">
+                  {isRTL ? "موضوع الاجتماع / نوع الخدمة المطلوب *" : "Meeting Topic / Service Details *"}
+                </label>
+                <input
+                  type="text"
+                  required
                   value={service}
                   onChange={(e) => setService(e.target.value)}
+                  placeholder={isRTL ? "اكتب تفاصيل الخدمة أو الاستفسار..." : "Type any service topic or request details..."}
                   className="w-full bg-black/60 border border-white/20 rounded-xl px-4 py-2.5 text-white focus:border-brand-orange outline-none"
-                >
-                  <option value="أتمتة العمليات وتقليل التكاليف">أتمتة العمليات وتقليل التكاليف (B2B)</option>
-                  <option value="مساعد المهام اليومية وتسهيل الحياة">مساعد المهام اليومية (B2C)</option>
-                  <option value="تحليل البيانات وزيادة الإنتاجية">تحليل البيانات وزيادة الإنتاجية</option>
-                  <option value="استشارة ذكاء اصطناعي عامة">استشارة ذكاء اصطناعي عامة</option>
-                </select>
+                />
               </div>
 
               <div className="space-y-1">
@@ -234,7 +283,7 @@ export default function CalendarPage() {
                   rows="3"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="..."
+                  placeholder={isRTL ? "اكتب أي ملاحظات إضافية..." : "Additional notes..."}
                   className="w-full bg-black/60 border border-white/20 rounded-xl px-4 py-2.5 text-white focus:border-brand-orange outline-none"
                 />
               </div>
@@ -242,9 +291,9 @@ export default function CalendarPage() {
               <div className="pt-2">
                 <button
                   type="submit"
-                  disabled={!selectedSlot || !name}
+                  disabled={!selectedSlot || !name || !service}
                   className={`w-full py-3.5 rounded-xl font-bold transition-all text-black ${
-                    selectedSlot && name
+                    selectedSlot && name && service
                       ? "bg-brand-orange hover:bg-brand-orange-400 shadow-lg shadow-brand-orange/30 cursor-pointer"
                       : "bg-gray-600 cursor-not-allowed opacity-50"
                   }`}

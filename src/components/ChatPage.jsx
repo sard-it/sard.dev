@@ -1,17 +1,23 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Send, Calendar, CheckCircle2, ArrowRight, ArrowLeft, Bot, Sparkles, User } from "lucide-react";
+import { Send, Calendar, CheckCircle2, ArrowRight, ArrowLeft, Sparkles, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { saveAppointment } from "../utils/calendarStorage";
 import sardLogo from "../assets/logo.png";
+import aiLogo from "../assets/ai-logo.png";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 const GEMINI_API_KEY = "AQ.Ab8RN6JFxh9sEr6mx0qxFaqL8rOyUFwogCpq13ATzb5tJrdS5A";
 
-// Robust Gemini API call trying primary model with fallbacks
+// Robust multi-model API query starting with gemini-2.5-flash
 async function queryGemini(contents, systemInstructionText) {
-  const models = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash"];
+  const models = [
+    "gemini-2.5-flash",
+    "gemini-2.0-flash",
+    "gemini-1.5-flash",
+    "gemini-1.5-pro"
+  ];
 
   for (const model of models) {
     try {
@@ -33,11 +39,11 @@ async function queryGemini(contents, systemInstructionText) {
         if (text) return text;
       }
     } catch (err) {
-      console.warn(`Attempt with ${model} failed, trying next...`, err);
+      console.warn(`Attempt with ${model} failed, trying next fallback...`, err);
     }
   }
 
-  throw new Error("Unable to reach Gemini API model endpoint.");
+  throw new Error("Unable to connect to Gemini AI model endpoint.");
 }
 
 export default function ChatPage() {
@@ -54,18 +60,18 @@ export default function ChatPage() {
 
   const systemInstruction = `
 You are Sard AI Assistant (مساعد سرد للذكاء الاصطناعي).
-Respond in the language used by the user (${isRTL ? "Arabic" : "English"}).
+Respond accurately in the language used by the user (${isRTL ? "Arabic" : "English"}).
 
 Key Knowledge:
 1. B2B Services:
-   - Daily Process Automation (أتمتة العمليات اليومية للشركات)
+   - Process Automation (أتمتة العمليات اليومية للشركات)
    - Operational Cost Reduction & Money Saving (تقليل التكاليف التشغيلية وتوفير المال)
    - Maximizing Efficiency & Productivity (رفع الكفاءة والإنتاجية لأقصى درجة)
 2. B2C Services:
-   - Daily Task Companion for individuals to complete work faster and simplify daily life.
+   - Personal daily tasks helper for individuals to complete work faster and simplify life.
    - AI as a supportive friend/co-pilot, not a threat.
 3. Appointments & Calendar Booking:
-   - Meeting hours: 12:00 PM to 12:00 AM.
+   - Working hours: 12:00 PM to 12:00 AM.
    - If user asks to book a meeting (e.g., "أريد حجز موعد غداً الساعة 2 ظهراً"), acknowledge politely and append:
      "[BOOKING_REQUEST: Date: YYYY-MM-DD | Time: HH:MM AM/PM | Name: GuestName | Service: ServiceName]" at the end.
 `;
@@ -131,7 +137,7 @@ Key Knowledge:
       setMessages(prev => [...prev, {
         sender: "bot",
         text: isRTL
-          ? "أهلاً بك! يمكنك الاستفسار عن أتمتة الأعمال أو حجز موعد مباشرة من هنا."
+          ? "أهلاً بك! يمكنك الاستفسار عن أتمتة الأعمال وتقليل التكاليف أو حجز موعد مباشرة من هنا."
           : "Welcome! You can inquire about process automation or book a meeting directly here."
       }]);
     }
@@ -192,8 +198,8 @@ Key Knowledge:
         {/* Initial Welcome Banner if no chat started */}
         {!started && (
           <div className="text-center py-12 space-y-4">
-            <div className="w-20 h-20 bg-brand-orange/10 border border-brand-orange/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <Sparkles className="w-10 h-10 text-brand-orange animate-pulse" />
+            <div className="w-20 h-20 bg-brand-orange/10 border border-brand-orange/30 rounded-2xl flex items-center justify-center mx-auto mb-4 overflow-hidden p-2">
+              <img src={aiLogo} alt="AI Logo" className="w-full h-full object-contain animate-pulse" />
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-white">{t('chat.welcomeTitle')}</h1>
             <p className="text-gray-400 text-base max-w-lg mx-auto">{t('chat.welcomeDesc')}</p>
@@ -211,10 +217,10 @@ Key Knowledge:
               className={`w-full flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
             >
               {msg.sender === "bot" ? (
-                /* Pro AI Full-width Response Layout */
+                /* Pro AI Full-width Response Layout with Leaf Wreath Emblem */
                 <div className="w-full flex gap-4 p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm text-gray-100 leading-relaxed text-base sm:text-lg">
-                  <div className="w-10 h-10 rounded-xl bg-brand-orange/20 border border-brand-orange/30 flex items-center justify-center shrink-0">
-                    <Bot className="w-6 h-6 text-brand-orange" />
+                  <div className="w-10 h-10 rounded-xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center shrink-0 p-1">
+                    <img src={aiLogo} alt="AI Avatar" className="w-full h-full object-contain" />
                   </div>
                   <div className="flex-1 space-y-2 whitespace-pre-line">
                     <p className="text-xs font-bold text-brand-orange uppercase tracking-wider">Sard AI Assistant</p>
@@ -242,8 +248,8 @@ Key Knowledge:
               animate={{ opacity: 1 }}
               className="w-full flex gap-4 p-6 rounded-2xl bg-white/5 border border-white/10 items-center"
             >
-              <div className="w-10 h-10 rounded-xl bg-brand-orange/20 border border-brand-orange/30 flex items-center justify-center shrink-0">
-                <Bot className="w-6 h-6 text-brand-orange" />
+              <div className="w-10 h-10 rounded-xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center shrink-0 p-1">
+                <img src={aiLogo} alt="AI Avatar" className="w-full h-full object-contain animate-spin" />
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 bg-brand-orange rounded-full animate-bounce [animation-delay:-0.3s]" />
