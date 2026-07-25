@@ -10,6 +10,8 @@ import { CTASection } from './components/CTASection';
 import { Footer } from './components/Footer';
 import ChatPage from "./components/ChatPage";
 import PartnerDetailsPage from "./pages/PartnerDetailsPage";
+import CalendarPage from "./pages/CalendarPage";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   return (
@@ -38,6 +40,12 @@ function App() {
 
         {/* 🤖 AI Chat Page */}
         <Route path="/ai" element={<ChatPage />} />
+
+        {/* 📅 Calendar Booking Page */}
+        <Route path="/calendar" element={<CalendarPage />} />
+
+        {/* 🔐 Admin Dashboard Page */}
+        <Route path="/admin" element={<AdminPage />} />
 
       </Routes>
     </BrowserRouter>
