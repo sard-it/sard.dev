@@ -9,22 +9,22 @@ import { PartnersSection } from './components/PartnersSection';
 import { CTASection } from './components/CTASection';
 import { Footer } from './components/Footer';
 import ChatPage from "./components/ChatPage";
+import PartnerDetailsPage from "./pages/PartnerDetailsPage";
 
- 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
 
-        {/* 🏠 Home Page (all your sections) */}
+        {/* 🏠 Home Page */}
         <Route
           path="/"
           element={
             <div className="bg-black">
               <HeroSection />
+              <PartnersSection />
               <AboutSection />
               <ServicesSection />
-              <PartnersSection />
               <VisionSection />
               <ValuesSection />
               <CTASection />
@@ -32,6 +32,9 @@ function App() {
             </div>
           }
         />
+
+        {/* 🤝 Partner Contract Details Page */}
+        <Route path="/partners/:id" element={<PartnerDetailsPage />} />
 
         {/* 🤖 AI Chat Page */}
         <Route path="/ai" element={<ChatPage />} />
