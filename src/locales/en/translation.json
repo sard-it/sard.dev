@@ -1,7 +1,7 @@
 {
   "hero": {
     "title": "Building Intelligence with a Human Heart",
-    "description1": "At Sard IT, we believe that technology should serve humanity, not dominate it. We integrate Artificial Intelligence into every system we build — not to take over human work, but to make it more meaningful, efficient, and impactful.",
+    "description1": "At Sard AI, we believe that technology should serve humanity, not dominate it. We integrate Artificial Intelligence into every system we build — not to take over human work, but to make it more meaningful, efficient, and impactful.",
     "description2": "Our goal is to design intelligent solutions that enhance creativity, optimize performance, and drive human progress forward.",
     "exploreButton": "Explore Our Solutions",
     "contactButton": "Contact Us",
@@ -9,7 +9,7 @@
   },
   "about": {
     "title": "About Us",
-    "paragraph1": "Sard IT is more than a technology company. We are architects of the future, building systems that think, adapt, and evolve — all while keeping humanity at the core.",
+    "paragraph1": "Sard AI is more than a technology company. We are architects of the future, building systems that think, adapt, and evolve — all while keeping humanity at the core.",
     "paragraph2": "Founded on the belief that artificial intelligence should amplify human potential, we combine cutting-edge technology with empathy, innovation with ethics, and automation with purpose.",
     "paragraph3": "Every solution we deliver is infused with intelligence — not as a replacement for human creativity, but as a catalyst for it.",
     "stats": {
@@ -17,6 +17,10 @@
       "clients": "Global Clients",
       "mindset": "Innovation Mindset"
     }
+  },
+  "partners": {
+    "title": "Our Partners",
+    "subtitle": "Proud to collaborate with top partners to build sustainable future-ready solutions"
   },
   "services": {
     "title": "Our Services",
@@ -93,4 +97,3 @@
     "contact": "Contact"
   }
 }
-

@@ -5,6 +5,7 @@ import { AboutSection } from './components/AboutSection';
 import { ServicesSection } from './components/ServicesSection';
 import { VisionSection } from './components/VisionSection';
 import { ValuesSection } from './components/ValuesSection';
+import { PartnersSection } from './components/PartnersSection';
 import { CTASection } from './components/CTASection';
 import { Footer } from './components/Footer';
 import ChatPage from "./components/ChatPage";
@@ -23,6 +24,7 @@ function App() {
               <HeroSection />
               <AboutSection />
               <ServicesSection />
+              <PartnersSection />
               <VisionSection />
               <ValuesSection />
               <CTASection />

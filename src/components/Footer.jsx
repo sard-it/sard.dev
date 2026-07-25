@@ -26,7 +26,7 @@ export const Footer = () => {
               <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-brand-orange fill-brand-orange" />
             </motion.div>
             <p className="text-xl sm:text-2xl font-light text-white">
-              Sard IT
+              Sard AI
             </p>
           </div>
           <div className="flex flex-col justify-center items-center ">
@@ -36,7 +36,7 @@ export const Footer = () => {
             </p>
 
             <p className="text-xs sm:text-sm text-gray-500">
-              © {new Date().getFullYear()} Sard IT. {t('footer.rights')}
+              © {new Date().getFullYear()} Sard AI. {t('footer.rights')}
             </p>
           </div>
 
